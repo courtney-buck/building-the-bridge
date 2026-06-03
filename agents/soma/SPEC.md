@@ -35,7 +35,7 @@ Classify every incoming email into one of four buckets, take appropriate action 
 ### Phase 1 — Triage & Sort (build this first)
 - Connect to Gmail (personal account initially)
 - Run on a schedule (initially: every 60 minutes during waking hours)
-- Classify each unprocessed email into one of four buckets:
+- Classify each unprocessed email with deterministic rules from `rules.json` into one of four buckets:
   - **ACTION** — requires Courtney's response or decision
   - **To Read** — worth reading but no action needed (newsletters, updates she opted into)
   - **DIGEST** — news sources / content she wants summarized, not read in full
@@ -44,6 +44,7 @@ Classify every incoming email into one of four buckets, take appropriate action 
 - Archive AUTO emails without surfacing them
 - Mark AUTO emails as read (unread count is a signal — AUTO emails don't deserve to pollute it)
 - Archive DIGEST emails and mark as read — summaries surface in morning brief; originals searchable if needed
+- The triage path is zero-token and does not require an LLM call.
 - Log classification activity to Discord #email-triage
 
 ### Phase 2 — Morning Brief Integration (build after Phase 1 is stable)
@@ -217,9 +218,9 @@ Functional. No personality required in logs. Digest messages to Courtney should 
 ---
 
 ## 13. Cost Discipline
-- Use lightest viable model for classification (gpt-4o-mini or gemini-flash)
+- Keep the triage path deterministic and zero-token
 - Batch processing — classify in groups, not one-by-one API calls
-- Digest summarization can use slightly heavier model (one call per digest, not per email)
+- Digest summarization, when Phase 2 is built, can use a heavier model if needed, but only one call per digest, not per email
 - Target: under $1/month at steady state
 
 ---
@@ -255,8 +256,8 @@ Functional. No personality required in logs. Digest messages to Courtney should 
 - [x] Gmail OAuth setup — cbclaw2026@gmail.com, gmail scope only
 - [x] Phase 0 complete — 35 emails classified, 16 archived, labels applied 2026-04-06
   - Note: one Ken Huang thread (19d556e9433d72b3) missed in manual batch, corrected same day. Not a rule gap — Phase 1 automation won't have this issue.
-- [ ] Courtney formal approval of agent activation
-- [ ] Agent named
-- [ ] Phase 1 build (ongoing triage cron)
+- [x] Courtney formal approval of agent activation — granted 2026-04-06
+- [x] Agent named — Soma
+- [x] Phase 1 build — deterministic triage cron in place
 - [ ] Phase 1 stable (2+ weeks)
 - [ ] Phase 2 build (morning brief integration)

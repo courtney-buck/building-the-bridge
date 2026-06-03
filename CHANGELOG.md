@@ -1,3 +1,16 @@
+## [2026-06-03]
+
+### Changed
+- **agents/soma/SPEC.md** — updated Soma agent spec; likely reflects architectural or prompt changes identified during heartbeat review
+- **AGENT-STATE.md** — updated agent state to reflect current system status as of June 3 heartbeat
+
+### Fixed
+- **ridge-midday-digest** — identified root cause of 2 consecutive cron errors: isolated cron run was attempting to use `sessions_send`/message tool to post to #ridge, which is blocked under the isolated cron restricted grant; flagged prompt update needed to remove "post to #ridge" instruction from isolated run (digest content confirmed reaching Dillon via Meru's deliver loop — no data loss)
+
+### Investigated
+- **Ridge pending triggers** — flagged stale triggers (F6 Report, SAS Approval, ADS Report) showing 0 nudges sent for multiple days (some since May 26); unclear whether handled outside Ridge's visibility or nudge logic not firing; marked for follow-up
+- **Calendar API** — confirmed not enabled for cbclaw2026@gmail.com (403 error); only Gmail auth active
+
 ## [2026-05-26]
 
 ### Changed

@@ -1,6 +1,6 @@
 # AGENT-STATE.md
 # Current system state. Read this before acting in any isolated or low-context session.
-# Updated: 2026-05-25 16:20 CDT
+# Updated: 2026-06-02 10:57 CDT
 
 ---
 
@@ -19,8 +19,8 @@
 | moltbook-heartbeat | google/gemini-flash-2.5 | Single API call + summarize |
 | github-push | google/gemini-flash-2.5 | Judgment on what to commit |
 | media-discovery | anthropic/claude-sonnet-4-6 | Quality filtering requires judgment |
-| soma-triage | google/gemini-flash-2.5 | Email classification, cost-sensitive |
-| soma-weekly-calibration | google/gemini-flash-2.5 | Weekly calibration, script-driven |
+| soma-triage | deterministic rules engine | Email classification via `agents/soma/rules.json` |
+| soma-weekly-calibration | script-driven | Weekly calibration, no LLM required |
 | veda-confirmation-bias-audit | openai/gpt-4o | Monthly audit — Veda's primary model |
 | veda-governance-review | openai/gpt-4o | Weekly governance review |
 | veda-md-audit | openai/gpt-4o | Weekly MD file audit |
@@ -32,7 +32,7 @@
 |-------|--------|-------|-------|
 | Cass | Active | claude-sonnet-4-6 | Orchestrator. Main session. |
 | Veda | Active | openai/gpt-4o | QA & governance. Permanent status granted 2026-05-20. |
-| Soma | Active | gemini-flash-2.5 | Hourly triage 8am–10pm CDT (cbclaw2026@gmail.com). Personal Gmail paused pending inbox cleanup. |
+| Soma | Active | rule-based triage | Hourly triage 8am–10pm CDT (cbclaw2026@gmail.com). Personal Gmail active again; backlog still being processed. |
 | Meru | Active | — | iMessage agent for Dillon's inbox (db@elevated.financial). iMessage config fixed 2026-05-25. |
 | Ridge | Active | qwen2.5:7b | Email routing sub-agent for Dillon's inbox (db@elevated.financial). |
 
@@ -47,8 +47,8 @@
 | moltbook-heartbeat | Hourly (staggered) | gemini-flash-2.5 | ✅ Running |
 | github-push | Midnight CDT | gemini-flash-2.5 | ✅ Running |
 | media-discovery | 7am CDT daily | claude-sonnet-4-6 | ✅ Running |
-| soma-triage | Hourly 8am–10pm CDT | gemini-flash-2.5 | ✅ Running |
-| soma-weekly-calibration | Sundays 10am CDT | gemini-flash-2.5 | ✅ Running |
+| soma-triage | Hourly 8am–10pm CDT | script | ✅ Running |
+| soma-weekly-calibration | Sundays 10am CDT | script | ✅ Running |
 | veda-confirmation-bias-audit | 1st of month 10am CDT | gpt-4o | ✅ Scheduled |
 | veda-governance-review | Mondays 10am CDT | gpt-4o | ✅ Scheduled |
 | veda-md-audit | Wednesdays 9am CDT | gpt-4o | ✅ Scheduled |
@@ -69,7 +69,7 @@
 ---
 
 ## Open Decisions / Pending
-- courtneyfbuck@gmail.com: Personal inbox still paused. ~5,223 emails. Soma re-enable pending retroactive rule-building session.
+- courtneyfbuck@gmail.com: Personal inbox active again. Backlog still being processed. Soma re-enable completed after retroactive rule-building session.
 - Substack custom domain: Awaiting Substack support response
 - Elevated agent: Design phase only — map manual workflows before architecting. NOT being built yet.
 - Dillon's agent: Phase 1 planned. Own Telegram bot, own soul file, scoped permissions.
@@ -104,4 +104,4 @@
 ## Known Issues / Watch Items
 - github-push.py has hardcoded Anthropic API key — needs env var migration and key rotation
 - Node.js v25.8.1 is current/unstable — LTS would be safer long-term (deferred)
-- Soma triage was timing out at 120s on cbclaw2026 — resolved, running on gemini-flash-2.5 with 60s timeout
+- Soma triage is deterministic and zero-token; the previous model-timeout note no longer applies
